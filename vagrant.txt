@@ -1,0 +1,42 @@
+Install Vagrant
+
+// Add box to vagrant
+$vagrant box add centos/7
+
+//Create a Local Directory for Vagrant
+$mkdir Test
+$cd Test
+$vagrant init centos/7
+
+//Start the Virtual Machine
+$vagrant up
+
+//Check the vagrant status
+vagrant status
+
+>Define two Virtual Machines in that one project
+
+//Open the vagrant file 'Vagrantfile'  with the text editor to set the host name and ip 
+Below: config.vm.box="centos/7"  
+Add:
+config.vm.define "ServerOne" do | ServerOne|
+ServerOne.vm.hostname = "ServerOne"
+ServerOne.vm.network "private_network", ip: "x.x.x.x1"
+end
+
+config.vm.define "ServerTwo" do | ServerTwo|
+ServerTwo.vm.hostname = "ServerTwo"
+ServerTwo.vm.network "private_network", ip: "x.x.x.x2"
+end
+
+//Save the changes and start the VM
+vagrant up
+
+//Check status then connect to the ServerOne VM and ping ServerTwo
+$vagrant ssh ServerOne
+$ping -c 3 x.x.x.x2
+$exit
+
+//log into ServerTwo VM and ping ServerOne
+$vagrant ssh ServerTwo
+$ping -c 3 x.x.x.x1
